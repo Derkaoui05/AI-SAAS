@@ -1,103 +1,174 @@
-import Image from "next/image";
+// app/page.tsx (HomePage)
+"use client";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { CheckCircle2, Utensils, HeartPulse, CalendarCheck } from "lucide-react";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="px-4 py-8 sm:py-12 lg:py-16 max-w-7xl mx-auto">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl mb-16 p-8 md:p-12 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Your Personalized AI Meal Planner</h1>
+        <p className="text-xl md:text-2xl mb-6 max-w-3xl mx-auto">
+          Eat healthier without the hassle. Our AI creates custom meal plans tailored to your tastes, dietary needs, and goals.
+        </p>
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <Button asChild size="lg" className="bg-white text-emerald-600 hover:bg-gray-100">
+            <Link href="/sign-up">Get Started For Free</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="text-white hover:bg-white/10">
+            <Link href="#how-it-works">How It Works</Link>
+          </Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Features Section */}
+      <section className="mb-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-3">Why Choose MealPlan?</h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            We combine nutrition science with AI to create meal plans that actually work for you
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="bg-emerald-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                <Utensils className="text-emerald-600" size={24} />
+              </div>
+              <CardTitle>Personalized Recipes</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Get recipes tailored to your taste preferences, cooking skills, and available ingredients.
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="bg-emerald-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                <HeartPulse className="text-emerald-600" size={24} />
+              </div>
+              <CardTitle>Diet-Specific Plans</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Whether keto, vegan, gluten-free or other needs, we&apos;ve got you covered with nutritionist-approved plans.
+              </CardDescription>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="bg-emerald-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
+                <CalendarCheck className="text-emerald-600" size={24} />
+              </div>
+              <CardTitle>Smart Grocery Lists</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>
+                Automatically generated shopping lists that save you time and reduce food waste.
+              </CardDescription>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section id="how-it-works" className="mb-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-3">How It Works</h2>
+          <p className="text-lg text-muted-foreground">
+            Get your perfect meal plan in just 3 simple steps
+          </p>
+        </div>
+        
+        <div className="flex flex-col md:flex-row justify-center items-start gap-8">
+          {[
+            {
+              icon: <CheckCircle2 size={32} />,
+              title: "Create Your Profile",
+              description: "Tell us about your dietary preferences, allergies, and health goals."
+            },
+            {
+              icon: <Utensils size={32} />,
+              title: "Customize Your Plan",
+              description: "Select your preferred cuisines, cooking time, and portion sizes."
+            },
+            {
+              icon: <HeartPulse size={32} />,
+              title: "Receive & Enjoy",
+              description: "Get your weekly plan with recipes, nutrition info, and shopping list."
+            }
+          ].map((step, index) => (
+            <div key={index} className="flex flex-col items-center text-center max-w-xs mx-auto">
+              <div className="bg-emerald-500 text-white rounded-full h-16 w-16 flex items-center justify-center mb-4">
+                {step.icon}
+              </div>
+              <div className="bg-secondary/50 px-3 py-1 rounded-full mb-2 text-sm font-medium">
+                Step {index + 1}
+              </div>
+              <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+              <p className="text-muted-foreground">{step.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="mb-16 bg-secondary/30 rounded-xl p-8">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-3">What Our Users Say</h2>
+          <p className="text-muted-foreground">
+            Join thousands of happy customers eating better with MealPlan
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              name: "Sarah J.",
+              role: "Busy Mom",
+              quote: "MealPlan has saved me so much time and stress. My picky eaters actually enjoy the meals!",
+              rating: "★★★★★"
+            },
+            {
+              name: "Michael T.",
+              role: "Fitness Enthusiast",
+              quote: "Finally a meal planner that understands my macros and fitness goals. Game changer!",
+              rating: "★★★★★"
+            },
+            {
+              name: "Priya K.",
+              role: "Vegetarian",
+              quote: "The variety of vegetarian options is amazing. I've discovered so many new favorite recipes.",
+              rating: "★★★★☆"
+            }
+          ].map((testimonial, index) => (
+            <Card key={index} className="p-6">
+              <div className="mb-4 text-yellow-500">{testimonial.rating}</div>
+              <p className="italic mb-4">"{testimonial.quote}"</p>
+              <div className="font-medium">{testimonial.name}</div>
+              <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="text-center">
+        <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Eating Habits?</h2>
+        <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+          Join thousands of users who are eating better and saving time with personalized meal plans
+        </p>
+        <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-700">
+          <Link href="/sign-up">Start Your Free Trial</Link>
+        </Button>
+      </section>
     </div>
   );
 }
