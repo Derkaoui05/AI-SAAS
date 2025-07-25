@@ -1,12 +1,26 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-export default clerkMiddleware(async (auth,req)=>{
+const isPublicRoute = createRouteMatcher(['/', '/sign-up(.*)?', '/subscribe(.*)']);
+
+const isSignUpRoute = createRouteMatcher(['/sign-up(.*)?']);
+
+export default clerkMiddleware(async (auth, req) => {
   const userAuth = await auth();
-  const {userId} = userAuth;
-  const {pathname,origin} = req.nextUrl;
-  console.log("Middleware Info: ",userId, pathname, origin);
-  
-})
+  const { userId } = userAuth;
+  const { pathname, origin } = req.nextUrl;
+  console.log('Middleware Info: ', userId, pathname, origin);
+
+  if (!isPublicRoute(req) && !userId) {
+    // Redirect to sign-in page if not authenticated
+    return NextResponse.redirect(new URL('/sign-in', origin));
+  }
+
+  if (isSignUpRoute(req) && userId) {
+    return NextResponse.redirect(new URL('/mealplan', origin));
+  }
+  return NextResponse.next();
+});
 
 export const config = {
   matcher: [

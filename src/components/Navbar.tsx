@@ -40,7 +40,7 @@ export const Navbar = () => {
         <div className="flex items-center gap-4">
           <SignedIn>
             <Button asChild variant="ghost">
-              <Link href="/meallplan">MealPlan</Link>
+              <Link href="/mealplan">MealPlan</Link>
             </Button>
             
             <Link href="/profile">
