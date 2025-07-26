@@ -1,11 +1,11 @@
-"use client";
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { SignedOut, SignedIn, useUser, SignOutButton } from '@clerk/nextjs';
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const Navbar = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -27,11 +27,11 @@ export const Navbar = () => {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
-          <Image 
-            src="/logo.jpeg" 
-            width={40} 
-            height={40} 
-            alt="logo" 
+          <Image
+            src="/logo.jpeg"
+            width={40}
+            height={40}
+            alt="logo"
             className="rounded-full border"
           />
           <span className="font-semibold">YourBrand</span>
@@ -42,7 +42,10 @@ export const Navbar = () => {
             <Button asChild variant="ghost">
               <Link href="/mealplan">MealPlan</Link>
             </Button>
-            
+            <Button asChild variant="ghost">
+              <Link href="/subscribe">Upgrade</Link>
+            </Button>
+
             <Link href="/profile">
               <Avatar className="h-8 w-8">
                 {user?.imageUrl ? (
@@ -57,7 +60,7 @@ export const Navbar = () => {
             </Link>
 
             <SignOutButton>
-              <Button className='bg-red-700' size="sm">
+              <Button className="bg-red-700" size="sm">
                 Sign Out
               </Button>
             </SignOutButton>
@@ -68,7 +71,7 @@ export const Navbar = () => {
               <Link href="/">Home</Link>
             </Button>
             <Button asChild variant="ghost">
-              <Link href={isSignedIn ? "/subscribe" : "/sign-up"}>Subscribe</Link>
+              <Link href={isSignedIn ? '/subscribe' : '/sign-up'}>Subscribe</Link>
             </Button>
             <Button asChild size="sm">
               <Link href="/sign-up">Sign Up</Link>
