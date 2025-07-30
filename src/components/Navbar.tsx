@@ -34,7 +34,7 @@ export const Navbar = () => {
             alt="logo"
             className="rounded-full border"
           />
-          <span className="font-semibold">YourBrand</span>
+          <span className="font-semibold">PurePlate</span>
         </Link>
 
         <div className="flex items-center gap-4">

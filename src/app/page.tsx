@@ -1,174 +1,299 @@
-// app/page.tsx (HomePage)
-"use client";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { CheckCircle2, Utensils, HeartPulse, CalendarCheck } from "lucide-react";
+"use client"
+
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import {
+  CheckCircle2,
+  Utensils,
+  HeartPulse,
+  CalendarCheck,
+  Star,
+  ArrowRight,
+  Sparkles,
+  Clock,
+  Users,
+} from "lucide-react"
+import Image from "next/image"
 
 export default function HomePage() {
   return (
-    <div className="px-4 py-8 sm:py-12 lg:py-16 max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl mb-16 p-8 md:p-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Your Personalized AI Meal Planner</h1>
-        <p className="text-xl md:text-2xl mb-6 max-w-3xl mx-auto">
-          Eat healthier without the hassle. Our AI creates custom meal plans tailored to your tastes, dietary needs, and goals.
-        </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button asChild size="lg" className="bg-white text-emerald-600 hover:bg-gray-100">
-            <Link href="/sign-up">Get Started For Free</Link>
-          </Button>
-          <Button asChild size="lg" variant="outline" className="text-white hover:bg-white/10">
-            <Link href="#how-it-works">How It Works</Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="mb-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-3">Why Choose MealPlan?</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We combine nutrition science with AI to create meal plans that actually work for you
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="bg-emerald-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                <Utensils className="text-emerald-600" size={24} />
-              </div>
-              <CardTitle>Personalized Recipes</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Get recipes tailored to your taste preferences, cooking skills, and available ingredients.
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="bg-emerald-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                <HeartPulse className="text-emerald-600" size={24} />
-              </div>
-              <CardTitle>Diet-Specific Plans</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Whether keto, vegan, gluten-free or other needs, we&apos;ve got you covered with nutritionist-approved plans.
-              </CardDescription>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="bg-emerald-100 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
-                <CalendarCheck className="text-emerald-600" size={24} />
-              </div>
-              <CardTitle>Smart Grocery Lists</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>
-                Automatically generated shopping lists that save you time and reduce food waste.
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section id="how-it-works" className="mb-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-3">How It Works</h2>
-          <p className="text-lg text-muted-foreground">
-            Get your perfect meal plan in just 3 simple steps
-          </p>
-        </div>
-        
-        <div className="flex flex-col md:flex-row justify-center items-start gap-8">
-          {[
-            {
-              icon: <CheckCircle2 size={32} />,
-              title: "Create Your Profile",
-              description: "Tell us about your dietary preferences, allergies, and health goals."
-            },
-            {
-              icon: <Utensils size={32} />,
-              title: "Customize Your Plan",
-              description: "Select your preferred cuisines, cooking time, and portion sizes."
-            },
-            {
-              icon: <HeartPulse size={32} />,
-              title: "Receive & Enjoy",
-              description: "Get your weekly plan with recipes, nutrition info, and shopping list."
-            }
-          ].map((step, index) => (
-            <div key={index} className="flex flex-col items-center text-center max-w-xs mx-auto">
-              <div className="bg-emerald-500 text-white rounded-full h-16 w-16 flex items-center justify-center mb-4">
-                {step.icon}
-              </div>
-              <div className="bg-secondary/50 px-3 py-1 rounded-full mb-2 text-sm font-medium">
-                Step {index + 1}
-              </div>
-              <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-              <p className="text-muted-foreground">{step.description}</p>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-500" />
+        <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1200')] opacity-10" />
+        <div className="relative px-4 py-16 sm:py-24 lg:py-32 max-w-7xl mx-auto">
+          <div className="text-center text-white">
+            <Badge className="mb-6 bg-white/20 text-white border-white/30 hover:bg-white/30">
+              <Sparkles className="w-4 h-4 mr-2" />
+              AI-Powered Nutrition
+            </Badge>
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              Your Perfect
+              <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+                Meal Plan
+              </span>
+              Awaits
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-emerald-50 leading-relaxed">
+              Transform your eating habits with AI-powered meal planning. Personalized recipes, smart grocery lists, and
+              nutrition tracking—all in one place.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+              <Button
+                asChild
+                size="lg"
+                className="bg-white text-emerald-600 hover:bg-emerald-50 shadow-xl hover:shadow-2xl transition-all duration-300 text-lg px-8 py-6"
+              >
+                <Link href="/sign-up" className="flex items-center">
+                  Start Free Trial
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm text-lg px-8 py-6 bg-transparent"
+              >
+                <Link href="#how-it-works">See How It Works</Link>
+              </Button>
             </div>
-          ))}
+            <div className="flex flex-wrap justify-center gap-8 text-emerald-100">
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5" />
+                <span>50K+ Happy Users</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Star className="w-5 h-5 fill-yellow-300 text-yellow-300" />
+                <span>4.9/5 Rating</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-5 h-5" />
+                <span>Save 5+ Hours/Week</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="mb-16 bg-secondary/30 rounded-xl p-8">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-3">What Our Users Say</h2>
-          <p className="text-muted-foreground">
-            Join thousands of happy customers eating better with MealPlan
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              name: "Sarah J.",
-              role: "Busy Mom",
-              quote: "MealPlan has saved me so much time and stress. My picky eaters actually enjoy the meals!",
-              rating: "★★★★★"
-            },
-            {
-              name: "Michael T.",
-              role: "Fitness Enthusiast",
-              quote: "Finally a meal planner that understands my macros and fitness goals. Game changer!",
-              rating: "★★★★★"
-            },
-            {
-              name: "Priya K.",
-              role: "Vegetarian",
-              quote: "The variety of vegetarian options is amazing. I've discovered so many new favorite recipes.",
-              rating: "★★★★☆"
-            }
-          ].map((testimonial, index) => (
-            <Card key={index} className="p-6">
-              <div className="mb-4 text-yellow-500">{testimonial.rating}</div>
-              <p className="italic mb-4">"{testimonial.quote}"</p>
-              <div className="font-medium">{testimonial.name}</div>
-              <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Features Section */}
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-emerald-100 text-emerald-700 hover:bg-emerald-200">Why Choose MealPlan?</Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Nutrition Made Simple
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              We combine cutting-edge AI with nutrition science to create meal plans that fit your lifestyle perfectly
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2 bg-gradient-to-br from-white to-emerald-50/50">
+              <CardHeader className="pb-4">
+                <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 p-4 rounded-2xl w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Utensils className="text-white" size={28} />
+                </div>
+                <CardTitle className="text-2xl mb-2">Personalized Recipes</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600 text-lg leading-relaxed">
+                  AI-curated recipes that match your taste preferences, cooking skills, and dietary restrictions
+                  perfectly.
+                </CardDescription>
+              </CardContent>
             </Card>
-          ))}
-        </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="text-center">
-        <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Eating Habits?</h2>
-        <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
-          Join thousands of users who are eating better and saving time with personalized meal plans
-        </p>
-        <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-700">
-          <Link href="/sign-up">Start Your Free Trial</Link>
-        </Button>
-      </section>
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2 bg-gradient-to-br from-white to-blue-50/50">
+              <CardHeader className="pb-4">
+                <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-4 rounded-2xl w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <HeartPulse className="text-white" size={28} />
+                </div>
+                <CardTitle className="text-2xl mb-2">Smart Nutrition</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600 text-lg leading-relaxed">
+                  Keto, vegan, gluten-free, or any diet—get nutritionist-approved plans tailored to your health goals.
+                </CardDescription>
+              </CardContent>
+            </Card>
+
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2 bg-gradient-to-br from-white to-purple-50/50">
+              <CardHeader className="pb-4">
+                <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-4 rounded-2xl w-16 h-16 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <CalendarCheck className="text-white" size={28} />
+                </div>
+                <CardTitle className="text-2xl mb-2">Effortless Planning</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600 text-lg leading-relaxed">
+                  Auto-generated grocery lists and meal schedules that save time and eliminate food waste.
+                </CardDescription>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+
+        {/* How It Works Section */}
+        <section id="how-it-works" className="py-20 bg-gradient-to-r from-gray-50 to-emerald-50/30 rounded-3xl mb-20">
+          <div className="px-8">
+            <div className="text-center mb-16">
+              <Badge className="mb-4 bg-emerald-100 text-emerald-700 hover:bg-emerald-200">Simple Process</Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                Get Started in Minutes
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Your personalized meal plan is just three steps away
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {[
+                {
+                  icon: <CheckCircle2 size={32} />,
+                  title: "Create Your Profile",
+                  description:
+                    "Tell us about your dietary preferences, allergies, health goals, and cooking experience.",
+                  color: "from-emerald-500 to-emerald-600",
+                },
+                {
+                  icon: <Utensils size={32} />,
+                  title: "Customize Your Plan",
+                  description:
+                    "Select cuisines, cooking time, portion sizes, and any specific ingredients you love or avoid.",
+                  color: "from-blue-500 to-blue-600",
+                },
+                {
+                  icon: <HeartPulse size={32} />,
+                  title: "Receive & Enjoy",
+                  description:
+                    "Get your weekly plan with detailed recipes, nutrition info, and organized shopping lists.",
+                  color: "from-purple-500 to-purple-600",
+                },
+              ].map((step, index) => (
+                <div key={index} className="relative">
+                  <div className="text-center">
+                    <div
+                      className={`bg-gradient-to-br ${step.color} text-white rounded-2xl h-20 w-20 flex items-center justify-center mb-6 mx-auto shadow-lg`}
+                    >
+                      {step.icon}
+                    </div>
+                    <Badge className="mb-4 bg-white/80 text-gray-700 shadow-sm">Step {index + 1}</Badge>
+                    <h3 className="text-2xl font-bold mb-4 text-gray-900">{step.title}</h3>
+                    <p className="text-gray-600 leading-relaxed text-lg">{step.description}</p>
+                  </div>
+                  {index < 2 && (
+                    <div className="hidden md:block absolute top-10 -right-4 text-gray-300">
+                      <ArrowRight size={24} />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="py-20">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-yellow-100 text-yellow-700 hover:bg-yellow-200">
+              <Star className="w-4 h-4 mr-2 fill-current" />
+              Customer Stories
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+              Loved by Thousands
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Join our community of happy customers who&apos;ve transformed their eating habits
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Sarah Johnson",
+                role: "Busy Mom of 3",
+                quote:
+                  "MealPlan has been a lifesaver! My picky eaters actually ask for seconds now, and I've saved hours each week on meal planning.",
+                rating: 5,
+                avatar: "/placeholder.svg?height=60&width=60",
+              },
+              {
+                name: "Michael Chen",
+                role: "Fitness Coach",
+                quote:
+                  "Finally, a meal planner that understands macros and fitness goals. My clients love the variety and I love the results!",
+                rating: 5,
+                avatar: "/placeholder.svg?height=60&width=60",
+              },
+              {
+                name: "Priya Patel",
+                role: "Plant-Based Foodie",
+                quote:
+                  "The vegetarian options are incredible! I've discovered amazing recipes I never would have found on my own.",
+                rating: 5,
+                avatar: "/placeholder.svg?height=60&width=60",
+              },
+            ].map((testimonial, index) => (
+              <Card
+                key={index}
+                className="p-8 hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-gradient-to-br from-white to-gray-50/50"
+              >
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 text-lg leading-relaxed italic">"{testimonial.quote}"</p>
+                <div className="flex items-center">
+                  <Image
+                    width={48}
+                    height={48}
+                    src={testimonial.avatar || "/placeholder.svg"}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full mr-4"
+                  />
+                  <div>
+                    <div className="font-bold text-gray-900">{testimonial.name}</div>
+                    <div className="text-gray-600">{testimonial.role}</div>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 text-center">
+          <div className="bg-gradient-to-br from-emerald-600 to-teal-600 rounded-3xl p-12 md:p-16 text-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-[url('/placeholder.svg?height=400&width=800')] opacity-10" />
+            <div className="relative">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Transform Your Kitchen?</h2>
+              <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-emerald-50 leading-relaxed">
+                Join thousands of users who are eating better, saving time, and loving their meals with AI-powered
+                planning
+              </p>
+              <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-white text-emerald-600 hover:bg-emerald-50 shadow-xl hover:shadow-2xl transition-all duration-300 text-lg px-8 py-6"
+                >
+                  <Link href="/sign-up" className="flex items-center">
+                    Start Your Free Trial
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </Link>
+                </Button>
+              </div>
+              <p className="text-emerald-200 text-sm">No credit card required • 7-day free trial • Cancel anytime</p>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
-  );
+  )
 }

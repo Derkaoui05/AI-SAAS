@@ -1,13 +1,13 @@
-"use client"
-import React from 'react';
-import { availablePlans } from '../../lib/plans';
-import { Check } from 'lucide-react';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+'use client';
 import { Badge } from '@/components/ui/badge';
-import { useMutation } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { useUser } from '@clerk/nextjs';
+import { useMutation } from '@tanstack/react-query';
+import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+import { availablePlans } from '../../lib/plans';
 
 type SubscribeResponse = {
   url: string;
@@ -43,23 +43,21 @@ function Subscribe() {
   const userId = user?.id;
   const email = user?.emailAddresses[0]?.emailAddress || '';
 
-  const { mutate, isPending } = useMutation<
-    SubscribeResponse,
-    Error,
-    { planType: string }
-  >({
+  const { mutate, isPending } = useMutation<SubscribeResponse, Error, { planType: string }>({
     mutationFn: async ({ planType }) => {
       if (!userId) {
         throw new Error('User not authenticated.');
       }
       return SubscribeToPlan(planType, userId, email);
     },
+    onMutate: () => {
+      toast.loading('Creating checkout session...');
+    },
     onSuccess: (data) => {
       window.location.href = data.url; // Redirect to the checkout URL
     },
-    onError: (error) => {
-      console.error('Subscription error:', error.message);
-      alert('An error occurred while processing your subscription. Please try again.');
+    onError: () => {
+      toast.error('Failed to create checkout session. Please try again later.');
     },
   });
   function HandleSubscribe(planType: string) {
@@ -67,7 +65,7 @@ function Subscribe() {
       router.push('/sign-up');
       return;
     }
-    mutate({planType });
+    mutate({ planType });
   }
   return (
     <div className="container mx-auto px-4 py-12">
