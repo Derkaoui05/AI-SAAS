@@ -54,6 +54,13 @@ function Subscribe() {
       }
       return SubscribeToPlan(planType, userId, email);
     },
+    onSuccess: (data) => {
+      window.location.href = data.url; // Redirect to the checkout URL
+    },
+    onError: (error) => {
+      console.error('Subscription error:', error.message);
+      alert('An error occurred while processing your subscription. Please try again.');
+    },
   });
   function HandleSubscribe(planType: string) {
     if (!userId) {
