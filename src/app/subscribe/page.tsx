@@ -6,7 +6,7 @@ import { useUser } from '@clerk/nextjs';
 import { useMutation } from '@tanstack/react-query';
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import toast,{Toaster} from 'react-hot-toast';
 import { availablePlans } from '../../lib/plans';
 
 type SubscribeResponse = {

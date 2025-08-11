@@ -1,9 +1,15 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
-const isPublicRoute = createRouteMatcher(['/', '/sign-up(.*)?', '/subscribe(.*)']);
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/sign-up(.*)?',
+  '/subscribe(.*)',
+  '/api/webhook(.*)', // Stripe webhook must be publicly accessible
+]);
 
 const isSignUpRoute = createRouteMatcher(['/sign-up(.*)?']);
+const isCreateProfileRoute = createRouteMatcher(['/create-profile(.*)?']);
 
 export default clerkMiddleware(async (auth, req) => {
   const userAuth = await auth();
@@ -13,11 +19,17 @@ export default clerkMiddleware(async (auth, req) => {
 
   if (!isPublicRoute(req) && !userId) {
     // Redirect to sign-in page if not authenticated
-    return NextResponse.redirect(new URL('/sign-in', origin));
+    return NextResponse.redirect(new URL('/sign-up', origin));
   }
 
-  if (isSignUpRoute(req) && userId) {
-    return NextResponse.redirect(new URL('/mealplan', origin));
+  // Send authenticated users through profile creation once
+  if (userId && isSignUpRoute(req)) {
+    return NextResponse.redirect(new URL('/create-profile', origin));
+  }
+
+  // Optional: prevent direct access to create-profile for signed-out users
+  if (!userId && isCreateProfileRoute(req)) {
+    return NextResponse.redirect(new URL('/sign-up', origin));
   }
   return NextResponse.next();
 });
