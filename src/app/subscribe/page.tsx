@@ -54,7 +54,7 @@ function Subscribe() {
       toast.loading('Creating checkout session...');
     },
     onSuccess: (data) => {
-      window.location.href = data.url; // Redirect to the checkout URL
+      window.location.href = data.url; 
     },
     onError: () => {
       toast.error('Failed to create checkout session. Please try again later.');

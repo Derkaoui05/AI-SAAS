@@ -1,21 +1,22 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  CheckCircle2,
-  Utensils,
-  HeartPulse,
-  CalendarCheck,
-  Star,
   ArrowRight,
-  Sparkles,
+  CalendarCheck,
+  CheckCircle2,
   Clock,
+  HeartPulse,
+  Quote,
+  Sparkles,
+  Star,
   Users,
-} from "lucide-react"
-import Image from "next/image"
+  Utensils,
+} from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function HomePage() {
   return (
@@ -38,8 +39,8 @@ export default function HomePage() {
               Awaits
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-emerald-50 leading-relaxed">
-              Transform your eating habits with AI-powered meal planning. Personalized recipes, smart grocery lists, and
-              nutrition tracking—all in one place.
+              Transform your eating habits with AI-powered meal planning. Personalized recipes,
+              smart grocery lists, and nutrition tracking—all in one place.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Button
@@ -83,12 +84,15 @@ export default function HomePage() {
         {/* Features Section */}
         <section className="py-20">
           <div className="text-center mb-16">
-            <Badge className="mb-4 bg-emerald-100 text-emerald-700 hover:bg-emerald-200">Why Choose MealPlan?</Badge>
+            <Badge className="mb-4 bg-emerald-100 text-emerald-700 hover:bg-emerald-200">
+              Why Choose MealPlan?
+            </Badge>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
               Nutrition Made Simple
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              We combine cutting-edge AI with nutrition science to create meal plans that fit your lifestyle perfectly
+              We combine cutting-edge AI with nutrition science to create meal plans that fit your
+              lifestyle perfectly
             </p>
           </div>
 
@@ -102,8 +106,8 @@ export default function HomePage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-600 text-lg leading-relaxed">
-                  AI-curated recipes that match your taste preferences, cooking skills, and dietary restrictions
-                  perfectly.
+                  AI-curated recipes that match your taste preferences, cooking skills, and dietary
+                  restrictions perfectly.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -117,7 +121,8 @@ export default function HomePage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-600 text-lg leading-relaxed">
-                  Keto, vegan, gluten-free, or any diet—get nutritionist-approved plans tailored to your health goals.
+                  Keto, vegan, gluten-free, or any diet—get nutritionist-approved plans tailored to
+                  your health goals.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -131,7 +136,8 @@ export default function HomePage() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-gray-600 text-lg leading-relaxed">
-                  Auto-generated grocery lists and meal schedules that save time and eliminate food waste.
+                  Auto-generated grocery lists and meal schedules that save time and eliminate food
+                  waste.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -139,10 +145,15 @@ export default function HomePage() {
         </section>
 
         {/* How It Works Section */}
-        <section id="how-it-works" className="py-20 bg-gradient-to-r from-gray-50 to-emerald-50/30 rounded-3xl mb-20">
+        <section
+          id="how-it-works"
+          className="py-20 bg-gradient-to-r from-gray-50 to-emerald-50/30 rounded-3xl mb-20"
+        >
           <div className="px-8">
             <div className="text-center mb-16">
-              <Badge className="mb-4 bg-emerald-100 text-emerald-700 hover:bg-emerald-200">Simple Process</Badge>
+              <Badge className="mb-4 bg-emerald-100 text-emerald-700 hover:bg-emerald-200">
+                Simple Process
+              </Badge>
               <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
                 Get Started in Minutes
               </h2>
@@ -155,24 +166,24 @@ export default function HomePage() {
               {[
                 {
                   icon: <CheckCircle2 size={32} />,
-                  title: "Create Your Profile",
+                  title: 'Create Your Profile',
                   description:
-                    "Tell us about your dietary preferences, allergies, health goals, and cooking experience.",
-                  color: "from-emerald-500 to-emerald-600",
+                    'Tell us about your dietary preferences, allergies, health goals, and cooking experience.',
+                  color: 'from-emerald-500 to-emerald-600',
                 },
                 {
                   icon: <Utensils size={32} />,
-                  title: "Customize Your Plan",
+                  title: 'Customize Your Plan',
                   description:
-                    "Select cuisines, cooking time, portion sizes, and any specific ingredients you love or avoid.",
-                  color: "from-blue-500 to-blue-600",
+                    'Select cuisines, cooking time, portion sizes, and any specific ingredients you love or avoid.',
+                  color: 'from-blue-500 to-blue-600',
                 },
                 {
                   icon: <HeartPulse size={32} />,
-                  title: "Receive & Enjoy",
+                  title: 'Receive & Enjoy',
                   description:
-                    "Get your weekly plan with detailed recipes, nutrition info, and organized shopping lists.",
-                  color: "from-purple-500 to-purple-600",
+                    'Get your weekly plan with detailed recipes, nutrition info, and organized shopping lists.',
+                  color: 'from-purple-500 to-purple-600',
                 },
               ].map((step, index) => (
                 <div key={index} className="relative">
@@ -182,7 +193,9 @@ export default function HomePage() {
                     >
                       {step.icon}
                     </div>
-                    <Badge className="mb-4 bg-white/80 text-gray-700 shadow-sm">Step {index + 1}</Badge>
+                    <Badge className="mb-4 bg-white/80 text-gray-700 shadow-sm">
+                      Step {index + 1}
+                    </Badge>
                     <h3 className="text-2xl font-bold mb-4 text-gray-900">{step.title}</h3>
                     <p className="text-gray-600 leading-relaxed text-lg">{step.description}</p>
                   </div>
@@ -215,54 +228,61 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                name: "Sarah Johnson",
-                role: "Busy Mom of 3",
+                name: 'Sarah Johnson',
+                role: 'Busy Mom of 3',
                 quote:
                   "MealPlan has been a lifesaver! My picky eaters actually ask for seconds now, and I've saved hours each week on meal planning.",
                 rating: 5,
-                avatar: "/placeholder.svg?height=60&width=60",
+                avatar: '/nicole.webp',
               },
               {
-                name: "Michael Chen",
-                role: "Fitness Coach",
+                name: 'Michael Chen',
+                role: 'Fitness Coach',
                 quote:
-                  "Finally, a meal planner that understands macros and fitness goals. My clients love the variety and I love the results!",
+                  'Finally, a meal planner that understands macros and fitness goals. My clients love the variety and I love the results!',
                 rating: 5,
-                avatar: "/placeholder.svg?height=60&width=60",
+                avatar: '/nicole.webp',
               },
               {
-                name: "Priya Patel",
-                role: "Plant-Based Foodie",
+                name: 'Priya Patel',
+                role: 'Plant-Based Foodie',
                 quote:
                   "The vegetarian options are incredible! I've discovered amazing recipes I never would have found on my own.",
                 rating: 5,
-                avatar: "/placeholder.svg?height=60&width=60",
+                avatar: '/nicole.webp',
               },
             ].map((testimonial, index) => (
               <Card
-                key={index}
-                className="p-8 hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-gradient-to-br from-white to-gray-50/50"
-              >
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                  ))}
+              key={index}
+              className="p-8 hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-gradient-to-br from-white to-gray-50/50"
+            >
+              <div className="flex items-center mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                ))}
+              </div>
+            
+              <p className="text-gray-700 mb-6 text-lg leading-relaxed italic relative">
+                <Quote className="inline-block w-[1.1em] h-[1.1em] text-gray-500 align-top mr-1" />
+                {testimonial.quote}
+                <Quote className="inline-block w-[1.1em] h-[1.1em] text-gray-500 align-bottom ml-1 rotate-180" />
+              </p>
+            
+              <div className="flex items-center">
+                <Image
+                  width={48}
+                  height={48}
+                  src={testimonial.avatar || '/placeholder.svg'}
+                  alt={testimonial.name}
+                  className="w-12 h-12 rounded-full mr-4"
+                />
+                <div>
+                  <div className="font-bold text-gray-900">{testimonial.name}</div>
+                  <div className="text-gray-600">{testimonial.role}</div>
                 </div>
-                <p className="text-gray-700 mb-6 text-lg leading-relaxed italic">"{testimonial.quote}"</p>
-                <div className="flex items-center">
-                  <Image
-                    width={48}
-                    height={48}
-                    src={testimonial.avatar || "/placeholder.svg"}
-                    alt={testimonial.name}
-                    className="w-12 h-12 rounded-full mr-4"
-                  />
-                  <div>
-                    <div className="font-bold text-gray-900">{testimonial.name}</div>
-                    <div className="text-gray-600">{testimonial.role}</div>
-                  </div>
-                </div>
-              </Card>
+              </div>
+            </Card>
+            
             ))}
           </div>
         </section>
@@ -272,10 +292,12 @@ export default function HomePage() {
           <div className="bg-gradient-to-br from-emerald-600 to-teal-600 rounded-3xl p-12 md:p-16 text-white relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('/placeholder.svg?height=400&width=800')] opacity-10" />
             <div className="relative">
-              <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Transform Your Kitchen?</h2>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Ready to Transform Your Kitchen?
+              </h2>
               <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-emerald-50 leading-relaxed">
-                Join thousands of users who are eating better, saving time, and loving their meals with AI-powered
-                planning
+                Join thousands of users who are eating better, saving time, and loving their meals
+                with AI-powered planning
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
                 <Button
@@ -289,11 +311,13 @@ export default function HomePage() {
                   </Link>
                 </Button>
               </div>
-              <p className="text-emerald-200 text-sm">No credit card required • 7-day free trial • Cancel anytime</p>
+              <p className="text-emerald-200 text-sm">
+                No credit card required • 7-day free trial • Cancel anytime
+              </p>
             </div>
           </div>
         </section>
       </div>
     </div>
-  )
+  );
 }
