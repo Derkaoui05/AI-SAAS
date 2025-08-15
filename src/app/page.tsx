@@ -17,8 +17,33 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function HomePage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const sessionId = searchParams.get('session_id');
+    if (!sessionId) return;
+
+    async function confirm() {
+      try {
+        await fetch('/api/checkout/confirm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ session_id: sessionId }),
+        });
+        router.replace('/');
+      } catch {
+        router.replace('/');
+      }
+    }
+
+    confirm();
+  }, [searchParams, router]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
       {/* Hero Section */}
@@ -253,36 +278,35 @@ export default function HomePage() {
               },
             ].map((testimonial, index) => (
               <Card
-              key={index}
-              className="p-8 hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-gradient-to-br from-white to-gray-50/50"
-            >
-              <div className="flex items-center mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-            
-              <p className="text-gray-700 mb-6 text-lg leading-relaxed italic relative">
-                <Quote className="inline-block w-[1.1em] h-[1.1em] text-gray-500 align-top mr-1" />
-                {testimonial.quote}
-                <Quote className="inline-block w-[1.1em] h-[1.1em] text-gray-500 align-bottom ml-1 rotate-180" />
-              </p>
-            
-              <div className="flex items-center">
-                <Image
-                  width={48}
-                  height={48}
-                  src={testimonial.avatar || '/placeholder.svg'}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full mr-4"
-                />
-                <div>
-                  <div className="font-bold text-gray-900">{testimonial.name}</div>
-                  <div className="text-gray-600">{testimonial.role}</div>
+                key={index}
+                className="p-8 hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-gradient-to-br from-white to-gray-50/50"
+              >
+                <div className="flex items-center mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  ))}
                 </div>
-              </div>
-            </Card>
-            
+
+                <p className="text-gray-700 mb-6 text-lg leading-relaxed italic relative">
+                  <Quote className="inline-block w-[1.1em] h-[1.1em] text-gray-500 align-top mr-1" />
+                  {testimonial.quote}
+                  <Quote className="inline-block w-[1.1em] h-[1.1em] text-gray-500 align-bottom ml-1 rotate-180" />
+                </p>
+
+                <div className="flex items-center">
+                  <Image
+                    width={48}
+                    height={48}
+                    src={testimonial.avatar || '/placeholder.svg'}
+                    alt={testimonial.name}
+                    className="w-12 h-12 rounded-full mr-4"
+                  />
+                  <div>
+                    <div className="font-bold text-gray-900">{testimonial.name}</div>
+                    <div className="text-gray-600">{testimonial.role}</div>
+                  </div>
+                </div>
+              </Card>
             ))}
           </div>
         </section>
