@@ -47,10 +47,10 @@ export async function POST(request: NextRequest) {
         await handleCheckoutSessionCompleted(session);
         break;
       }
-      case 'invoice.payment_succeeded': {
+      case 'invoice.payment_failed': {
         console.log('Processing invoice.payment_succeeded event');
         const invoice = event.data.object as Stripe.Invoice;
-        await handleInvoicePaymentSucceeded(invoice);
+        await handleInvoicePaymentFailed(invoice);
         break;
       }
       case 'customer.subscription.deleted': {
@@ -117,13 +117,52 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     throw error;
   }
 }
+type InvoiceWithSubscription = Stripe.Invoice & {
+  subscription?: string | Stripe.Subscription | null;
+};
 
-async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
-  // Access subscription ID from invoice metadata or use a different approach
-  // For now, we'll skip this handler since the main subscription activation
-  // happens in checkout.session.completed
-  console.log('Invoice payment succeeded for invoice:', invoice.id);
+async function handleInvoicePaymentFailed(invoice: InvoiceWithSubscription) {
+  console.log('Invoice payment failed for invoice:', invoice.id);
+
+  const subscriptionId =
+  typeof invoice.subscription === "string"
+    ? invoice.subscription
+    : invoice.subscription?.id ?? null;
+
+  if (!subscriptionId) {
+    console.log('No subscription ID found in invoice');
+    return;
+  }
+
+  let userId: string | undefined;
+  try {
+    const profile = await prisma.profile.findUnique({
+      where: { stripeSubscriptionId: subscriptionId },
+      select: { userId: true },
+    });
+    if (!profile?.userId) {
+      console.log('No profile found for subscription');
+      return;
+    }
+    userId = profile.userId;
+  } catch (error) {
+    console.error('Error retrieving userId from profile:', error);
+    return;
+  }
+
+  try {
+    await prisma.profile.update({
+      where: { userId },
+      data: {
+        subscriptionActive: false,
+      },
+    });
+    console.log(`Subscription for user ${userId} marked inactive.`);
+  } catch (error) {
+    console.error('Error updating profile subscription status:', error);
+  }
 }
+
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   console.log('Processing subscription deletion:', subscription.id);

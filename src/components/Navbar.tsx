@@ -1,11 +1,11 @@
 'use client';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { SignedIn, SignedOut, SignOutButton, useUser } from '@clerk/nextjs';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import { SignedOut, SignedIn, useUser, SignOutButton } from '@clerk/nextjs';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
+
 
 export const Navbar = () => {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -24,7 +24,8 @@ export const Navbar = () => {
   }
 
   return (
-    <nav className="s w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <>
+    <nav className="w-full bg-background">
       <div className="container flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
           <Image
@@ -80,5 +81,6 @@ export const Navbar = () => {
         </div>
       </div>
     </nav>
+    </>
   );
 };
