@@ -165,25 +165,44 @@ async function handleInvoicePaymentFailed(invoice: InvoiceWithSubscription) {
 
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
-  console.log('Processing subscription deletion:', subscription.id);
+
+  console.log('Handling subscription deleted:', subscription.id);
+
+  const subscriptionId = subscription.id as string;
+
+  if (!subscriptionId) {
+    console.log('No subscription ID found in invoice');
+    return;
+  }
+
+  let userId: string | undefined;
+  try {
+    const profile = await prisma.profile.findUnique({
+      where: { stripeSubscriptionId: subscriptionId },
+      select: { userId: true },
+    });
+    if (!profile?.userId) {
+      console.log('No profile found for subscription');
+      return;
+    }
+    userId = profile.userId;
+  } catch (error) {
+    console.error('Error retrieving userId from profile:', error);
+    return;
+  }
 
   try {
-    const profile = await prisma.profile.findFirst({
-      where: { stripeSubscriptionId: subscription.id },
+    await prisma.profile.update({
+      where: { userId },
+      data: {
+        subscriptionActive: false,
+        stripeSubscriptionId: null, // Clear the subscription ID
+        subscriptionTier: null, // Clear the subscription tier
+        
+      },
     });
-
-    if (profile) {
-      await prisma.profile.update({
-        where: { id: profile.id },
-        data: {
-          subscriptionActive: false,
-          subscriptionTier: null,
-          stripeSubscriptionId: null,
-        },
-      });
-      console.log('Profile subscription deactivated');
-    }
+    console.log(`Subscription for user ${userId} marked inactive.`);
   } catch (error) {
-    console.error('Error deactivating subscription:', error);
+    console.error('Error updating profile subscription status:', error);
   }
 }
