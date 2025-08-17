@@ -3,15 +3,37 @@
 import { NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 
+// Check if API key is available
+if (!process.env.OPEN_ROUTER_API_KEY) {
+  console.error('OPEN_ROUTER_API_KEY is not set in environment variables');
+}
+
 const openai = new OpenAI({
-  baseURL: 'https://openrouter.ai/api/v1', // Ensure this is the correct baseURL for your API
+  baseURL: 'https://openrouter.ai/api/v1',
   apiKey: process.env.OPEN_ROUTER_API_KEY,
 });
 
 export async function POST(request: Request) {
   try {
+    // Validate API key
+    if (!process.env.OPEN_ROUTER_API_KEY) {
+      console.error('Missing OPEN_ROUTER_API_KEY');
+      return NextResponse.json(
+        { error: 'API key not configured. Please check your environment variables.' },
+        { status: 500 },
+      );
+    }
+
     // Extract parameters from the request body
     const { dietType, calories, allergies, cuisine, snacks } = await request.json();
+
+    // Validate required parameters
+    if (!dietType || !calories) {
+      return NextResponse.json(
+        { error: 'Missing required parameters: dietType and calories are required.' },
+        { status: 400 },
+      );
+    }
 
     const prompt = `
       You are a professional nutritionist. Create a 7-day meal plan for an individual following a ${dietType} diet aiming for ${calories} calories per day.
@@ -31,13 +53,13 @@ export async function POST(request: Request) {
       Structure the response as a JSON object where each day is a key, and each meal (breakfast, lunch, dinner, snacks) is a sub-key. Example:
       
       {
-        "Monday": {
+        "Sunday": {
           "Breakfast": "Oatmeal with fruits - 350 calories",
           "Lunch": "Grilled chicken salad - 500 calories",
           "Dinner": "Steamed vegetables with quinoa - 600 calories",
           "Snacks": "Greek yogurt - 150 calories"
         },
-        "Tuesday": {
+        "Monday": {
           "Breakfast": "Smoothie bowl - 300 calories",
           "Lunch": "Turkey sandwich - 450 calories",
           "Dinner": "Baked salmon with asparagus - 700 calories",
@@ -49,30 +71,32 @@ export async function POST(request: Request) {
       Return just the json with no extra commentaries and no backticks.
     `;
 
+    console.log('Sending request to OpenRouter with model:', 'anthropic/claude-3.5-sonnet');
+
     // Send the prompt to the AI model
     const response = await openai.chat.completions.create({
-      model: 'meta-llama/llama-3.2-3b-instruct:free', // Ensure this model is accessible and suitable
+      model: 'anthropic/claude-3.5-sonnet',
       messages: [
         {
           role: 'user',
           content: prompt,
         },
       ],
-      temperature: 0.7, // Adjust for creativity vs. consistency
-      max_tokens: 1500, // Adjust based on expected response length
+      temperature: 0.7,
+      max_tokens: 1500,
     });
 
     // Extract the AI's response
     const aiContent = response.choices[0].message.content!.trim();
+    console.log('AI Response received:', aiContent.substring(0, 200) + '...');
 
     // Attempt to parse the AI's response as JSON
     let parsedMealPlan: { [day: string]: DailyMealPlan };
-    console.log(aiContent);
     try {
       parsedMealPlan = JSON.parse(aiContent);
     } catch (parseError) {
       console.error('Error parsing AI response as JSON:', parseError);
-      // If parsing fails, return the raw text with an error message
+      console.error('Raw AI response:', aiContent);
       return NextResponse.json(
         { error: 'Failed to parse meal plan. Please try again.' },
         { status: 500 },
@@ -84,12 +108,33 @@ export async function POST(request: Request) {
       throw new Error('Invalid meal plan format received from AI.');
     }
 
-    // Optionally, perform additional validation on the structure here
+    console.log('Successfully parsed meal plan with', Object.keys(parsedMealPlan).length, 'days');
 
     // Return the parsed meal plan
     return NextResponse.json({ mealPlan: parsedMealPlan });
   } catch (error) {
     console.error('Error generating meal plan:', error);
+
+    // Provide more specific error messages
+    if (error instanceof Error) {
+      if (error.message.includes('401')) {
+        return NextResponse.json(
+          { error: 'Authentication failed. Please check your API key.' },
+          { status: 401 },
+        );
+      } else if (error.message.includes('429')) {
+        return NextResponse.json(
+          { error: 'Rate limit exceeded. Please try again later.' },
+          { status: 429 },
+        );
+      } else if (error.message.includes('model')) {
+        return NextResponse.json(
+          { error: 'Model not available. Please try a different model.' },
+          { status: 500 },
+        );
+      }
+    }
+
     return NextResponse.json(
       { error: 'Failed to generate meal plan. Please try again later.' },
       { status: 500 },
