@@ -73,7 +73,7 @@ export default function MealPlanDashboard() {
   };
 
   // Define the days of the week in order
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   // Function to retrieve the meal plan for a specific day
   const getMealPlanForDay = (day: string): DailyMealPlan | undefined => {
