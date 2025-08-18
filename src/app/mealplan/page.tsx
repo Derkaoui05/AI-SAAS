@@ -3,7 +3,7 @@
 
 import { Spinner } from '@/components/ui/spinner';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface DailyMealPlan {
   Breakfast?: string;
@@ -52,8 +52,16 @@ export default function MealPlanDashboard() {
         const errorData: MealPlanResponse = await response.json();
         throw new Error(errorData.error || 'Failed to generate meal plan.');
       }
-
-      return response.json();
+      const data: MealPlanResponse = await response.json();
+      // Persist to server if a plan was generated
+      if (data.mealPlan) {
+        await fetch('/api/mealplan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mealPlan: data.mealPlan }),
+        });
+      }
+      return data;
     },
   });
 
@@ -76,11 +84,26 @@ export default function MealPlanDashboard() {
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   // Function to retrieve the meal plan for a specific day
-  const getMealPlanForDay = (day: string): DailyMealPlan | undefined => {
-    if (!mutation.data?.mealPlan) return undefined;
+  // Removed unused helper
 
-    return mutation.data.mealPlan[day];
-  };
+  // Load last saved meal plan on mount
+  useEffect(() => {
+    const fetchSaved = async () => {
+      try {
+        const res = await fetch('/api/mealplan', { cache: 'no-store' });
+        if (!res.ok) return;
+        const json = (await res.json()) as MealPlanResponse;
+        if (json.mealPlan) {
+          // Inject into mutation state by mimicking a success result
+          // Simpler approach: store locally
+          setSaved(json.mealPlan);
+        }
+      } catch {}
+    };
+    fetchSaved();
+  }, []);
+
+  const [saved, setSaved] = useState<WeeklyMealPlan | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-8 px-4">
@@ -236,10 +259,11 @@ export default function MealPlanDashboard() {
                 )}
               </div>
 
-              {mutation.isSuccess && mutation.data.mealPlan ? (
+              {(mutation.isSuccess && mutation.data.mealPlan) || saved ? (
                 <div className="space-y-6">
                   {daysOfWeek.map((day, index) => {
-                    const mealPlan = getMealPlanForDay(day);
+                    const planSource = mutation.data?.mealPlan ?? saved ?? undefined;
+                    const mealPlan = planSource ? planSource[day] : undefined;
                     return (
                       <div
                         key={day}
