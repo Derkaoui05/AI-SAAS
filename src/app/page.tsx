@@ -18,9 +18,9 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
-export default function HomePage() {
+function HomePageClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -343,5 +343,13 @@ export default function HomePage() {
         </section>
       </div>
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={null}>
+      <HomePageClient />
+    </Suspense>
   );
 }
