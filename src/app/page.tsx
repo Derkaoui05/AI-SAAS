@@ -46,7 +46,6 @@ function HomePageClient() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
-      {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-500" />
         <div className="absolute inset-0 bg-[url('/placeholder.svg?height=800&width=1200')] opacity-10" />
@@ -169,7 +168,6 @@ function HomePageClient() {
           </div>
         </section>
 
-        {/* How It Works Section */}
         <section
           id="how-it-works"
           className="py-20 bg-gradient-to-r from-gray-50 to-emerald-50/30 rounded-3xl mb-20"
@@ -235,7 +233,6 @@ function HomePageClient() {
           </div>
         </section>
 
-        {/* Testimonials Section */}
         <section className="py-20">
           <div className="text-center mb-16">
             <Badge className="mb-4 bg-yellow-100 text-yellow-700 hover:bg-yellow-200">
@@ -311,7 +308,6 @@ function HomePageClient() {
           </div>
         </section>
 
-        {/* CTA Section */}
         <section className="py-20 text-center">
           <div className="bg-gradient-to-br from-emerald-600 to-teal-600 rounded-3xl p-12 md:p-16 text-white relative overflow-hidden">
             <div className="absolute inset-0 bg-[url('/placeholder.svg?height=400&width=800')] opacity-10" />
