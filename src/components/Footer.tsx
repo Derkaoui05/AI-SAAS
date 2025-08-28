@@ -1,5 +1,4 @@
 import { ChefHat } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 function Footer() {
@@ -36,7 +35,7 @@ function Footer() {
               height={44}
               className="rounded-lg shadow-sm ring-1 ring-black/5"
             /> */}
-             <ChefHat className="h-9 w-9 text-emerald-600" />
+            <ChefHat className="h-9 w-9 text-emerald-600" />
             <span className="text-xl font-semibold tracking-tight">PurePLate</span>
           </div>
           <p className="max-w-2xl text-balance text-sm text-muted-foreground">
@@ -190,7 +189,11 @@ function Footer() {
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t pt-6 text-xs text-muted-foreground md:flex-row">
           <p>
             © {new Date().getFullYear()} Healtcare. All rights reserved | Designed by{' '}
-            <Link className="font-bold text-emerald-600" href="https://derkaoui.netlify.app">
+            <Link
+              target="blank"
+              className="font-bold text-emerald-600"
+              href="https://derkaoui.netlify.app"
+            >
               Yassir
             </Link>
           </p>
