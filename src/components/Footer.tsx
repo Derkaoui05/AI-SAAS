@@ -1,3 +1,4 @@
+import { ChefHat } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -28,13 +29,14 @@ function Footer() {
             💚 Fresh, tasty, and tailored for you
           </div>
           <div className="flex items-center gap-3">
-            <Image
+            {/* <Image
               src="/logo.jpeg"
               alt="PurePLate logo"
               width={44}
               height={44}
               className="rounded-lg shadow-sm ring-1 ring-black/5"
-            />
+            /> */}
+             <ChefHat className="h-9 w-9 text-emerald-600" />
             <span className="text-xl font-semibold tracking-tight">PurePLate</span>
           </div>
           <p className="max-w-2xl text-balance text-sm text-muted-foreground">
