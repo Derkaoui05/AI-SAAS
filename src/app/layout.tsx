@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { Navbar } from '../components/Navbar';
 import ReactQueryClientProvider from '../components/react-query-client-provider';
 import './globals.css';
-
+import { Analytics } from "@vercel/analytics/next"
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -32,6 +32,7 @@ export default function RootLayout({
           <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
             <Navbar />
             {children}
+            <Analytics />
           </body>
         </html>
       </ReactQueryClientProvider>
