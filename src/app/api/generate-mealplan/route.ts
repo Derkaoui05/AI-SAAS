@@ -1,9 +1,6 @@
-// app/api/generate-mealplan/route.ts
-
 import { NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 
-// Check if API key is available
 if (!process.env.OPEN_ROUTER_API_KEY) {
   console.error('OPEN_ROUTER_API_KEY is not set in environment variables');
 }
@@ -15,7 +12,6 @@ const openai = new OpenAI({
 
 export async function POST(request: Request) {
   try {
-    // Validate API key
     if (!process.env.OPEN_ROUTER_API_KEY) {
       console.error('Missing OPEN_ROUTER_API_KEY');
       return NextResponse.json(
@@ -24,10 +20,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Extract parameters from the request body
     const { dietType, calories, allergies, cuisine, snacks } = await request.json();
 
-    // Validate required parameters
     if (!dietType || !calories) {
       return NextResponse.json(
         { error: 'Missing required parameters: dietType and calories are required.' },
@@ -73,7 +67,6 @@ export async function POST(request: Request) {
 
     console.log('Sending request to OpenRouter with model:', 'anthropic/claude-3.5-sonnet');
 
-    // Send the prompt to the AI model
     const response = await openai.chat.completions.create({
       model: 'anthropic/claude-3.5-sonnet',
       messages: [
@@ -86,11 +79,9 @@ export async function POST(request: Request) {
       max_tokens: 1500,
     });
 
-    // Extract the AI's response
     const aiContent = response.choices[0].message.content!.trim();
     console.log('AI Response received:', aiContent.substring(0, 200) + '...');
 
-    // Attempt to parse the AI's response as JSON
     let parsedMealPlan: { [day: string]: DailyMealPlan };
     try {
       parsedMealPlan = JSON.parse(aiContent);
@@ -103,19 +94,16 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate the structure of the parsedMealPlan
     if (typeof parsedMealPlan !== 'object' || parsedMealPlan === null) {
       throw new Error('Invalid meal plan format received from AI.');
     }
 
     console.log('Successfully parsed meal plan with', Object.keys(parsedMealPlan).length, 'days');
 
-    // Return the parsed meal plan
     return NextResponse.json({ mealPlan: parsedMealPlan });
   } catch (error) {
     console.error('Error generating meal plan:', error);
 
-    // Provide more specific error messages
     if (error instanceof Error) {
       if (error.message.includes('401')) {
         return NextResponse.json(
@@ -142,7 +130,7 @@ export async function POST(request: Request) {
   }
 }
 
-// Define the DailyMealPlan interface here or import it if defined elsewhere
+
 interface DailyMealPlan {
   Breakfast?: string;
   Lunch?: string;
