@@ -6,7 +6,7 @@ import { FooterSocial } from './footer/FooterSocial';
 
 export default function MainFooter() {
   return (
-    <footer className="relative border-t bg-gradient-to-b from-pink-50/60 via-white to-sky-50/70 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <footer className="relative border-t bg-gradient-to-b from-pink-50/60 via-white to-sky-50/70">
       <FooterBackground />
 
       <div className="mx-auto w-full max-w-7xl px-6 pb-10 pt-16">
