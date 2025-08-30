@@ -5,6 +5,18 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Clock, Sparkles, Star, Users } from 'lucide-react';
 import Link from 'next/link';
 
+const Hero = () => {
+  return (
+    <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+      Your Perfect
+      <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+        Meal Plan
+      </span>
+      Awaits
+    </h1>
+  );
+};
+
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden">
@@ -16,13 +28,7 @@ export function HeroSection() {
             <Sparkles className="w-4 h-4 mr-2" />
             AI-Powered Nutrition
           </Badge>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            Your Perfect
-            <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-              Meal Plan
-            </span>
-            Awaits
-          </h1>
+          <Hero />
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-emerald-50 leading-relaxed">
             Transform your eating habits with AI-powered meal planning. Personalized recipes, smart
             grocery lists, and nutrition tracking—all in one place.
