@@ -3,8 +3,8 @@ import { FooterNewsletter } from './FooterNewsletter';
 
 export function FooterHero() {
   return (
-    <div className="flex flex-col items-center gap-6 text-center">
-      <div className="inline-flex items-center rounded-full border bg-white/70 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
+    <div className="flex flex-col items-center gap-6 text-center min-h-[200px]">
+      <div className="inline-flex items-center rounded-full border bg-white/70 px-3 py-1 text-xs text-muted-foreground backdrop-blur dark:bg-slate-900/60">
         💚 Fresh, tasty, and tailored for you
       </div>
       <FooterBrand />

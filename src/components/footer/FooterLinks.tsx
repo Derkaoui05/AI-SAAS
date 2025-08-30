@@ -11,7 +11,7 @@ interface FooterLinkGroupProps {
 
 function FooterLinkGroup({ title, links }: FooterLinkGroupProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 min-h-[120px]">
       <h3 className="text-sm font-semibold">{title}</h3>
       <ul className="space-y-3 text-sm text-muted-foreground">
         {links.map((link) => (

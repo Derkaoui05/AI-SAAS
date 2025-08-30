@@ -1,0 +1,51 @@
+/* Footer CLS Prevention Styles */
+.footer-container {
+  contain: layout;
+  will-change: auto;
+}
+
+/* Ensure stable footer dimensions */
+footer {
+  contain: layout;
+  min-height: 400px;
+  height: auto;
+}
+
+/* Prevent layout shifts for background elements */
+.footer-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Stable dimensions for footer sections */
+.footer-hero {
+  min-height: 200px;
+  contain: layout;
+}
+
+.footer-links-group {
+  min-height: 120px;
+  contain: layout;
+}
+
+.footer-social {
+  min-height: 120px;
+  contain: layout;
+}
+
+/* Prevent text layout shifts */
+.footer-text {
+  contain: layout;
+  text-rendering: optimizeSpeed;
+}
+
+/* Optimize grid layout stability */
+.footer-grid {
+  contain: layout;
+  grid-template-rows: auto;
+}
