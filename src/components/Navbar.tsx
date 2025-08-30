@@ -3,7 +3,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SignedIn, SignedOut, SignOutButton, useUser } from '@clerk/nextjs';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ChefHat } from 'lucide-react';
 
@@ -29,13 +28,6 @@ export const Navbar = () => {
     <nav className="w-full bg-background">
       <div className="container flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
-          {/* <Image
-            src="/logo.jpeg"
-            width={40}
-            height={40}
-            alt="logo"
-            className="rounded-full border"
-          /> */}
           <ChefHat className="h-9 w-9 text-emerald-600" />
           <span className="font-semibold">PurePlate</span>
         </Link>
