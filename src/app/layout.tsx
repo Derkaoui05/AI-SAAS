@@ -1,20 +1,10 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import MainFooter from '../components/Footer';
 import { Navbar } from '../components/Navbar';
 import ReactQueryClientProvider from '../components/react-query-client-provider';
 import './globals.css';
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'PurePlate',
@@ -30,7 +20,7 @@ export default function RootLayout({
     <ClerkProvider>
       <ReactQueryClientProvider>
         <html lang="en">
-          <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <body className="antialiased">
             <Navbar />
             {children}
             <MainFooter />

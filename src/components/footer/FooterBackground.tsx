@@ -3,7 +3,7 @@ export function FooterBackground() {
     <>
       <div className="absolute -top-8 left-0 right-0" aria-hidden>
         <svg
-          className="w-full text-white dark:text-slate-900"
+          className="w-full text-white"
           viewBox="0 0 1440 80"
           preserveAspectRatio="none"
         >

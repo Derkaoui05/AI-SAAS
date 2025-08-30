@@ -26,7 +26,7 @@ export function FooterSocial() {
             target="_blank"
             rel="noreferrer"
             aria-label={social.label}
-            className="rounded-full border bg-white/70 p-2 text-foreground/80 transition hover:bg-white hover:shadow-sm dark:bg-slate-900/60"
+            className="rounded-full border bg-white/70 p-2 text-foreground/80 transition hover:bg-white hover:shadow-sm"
           >
             {social.icon}
           </Link>

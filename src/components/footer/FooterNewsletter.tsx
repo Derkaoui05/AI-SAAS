@@ -1,7 +1,7 @@
 export function FooterNewsletter() {
   return (
     <div className="w-full">
-      <div className="mx-auto w-full max-w-xl rounded-2xl border bg-white/70 p-3 shadow-sm backdrop-blur dark:bg-slate-900/60">
+      <div className="mx-auto w-full max-w-xl rounded-2xl border bg-white/70 p-3 shadow-sm backdrop-blur ">
         <form className="flex items-center gap-2">
           <input
             type="email"
