@@ -11,7 +11,6 @@ import { useCheckoutConfirmation } from '@/hooks/useCheckoutConfirmation';
 import { Suspense } from 'react';
 
 function HomePageClient() {
-  // Use custom hook for checkout confirmation logic
   useCheckoutConfirmation();
 
   return (

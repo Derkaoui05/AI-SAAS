@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 if (!process.env.OPEN_ROUTER_API_KEY) {
   console.error('OPEN_ROUTER_API_KEY is not set in environment variables');
 }
@@ -67,24 +70,74 @@ export async function POST(request: Request) {
 
     console.log('Sending request to OpenRouter with model:', 'anthropic/claude-3.5-sonnet');
 
-    const response = await openai.chat.completions.create({
-      model: 'anthropic/claude-3.5-sonnet',
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
-      temperature: 0.7,
-      max_tokens: 1500,
-    });
+    const tryCompletion = async (maxTokensList: number[]): Promise<string> => {
+      for (const maxTokens of maxTokensList) {
+        try {
+          const resp = await openai.chat.completions.create({
+            model: 'anthropic/claude-3.5-sonnet',
+            messages: [
+              {
+                role: 'user',
+                content: prompt,
+              },
+            ],
+            temperature: 0.7,
+            max_tokens: maxTokens,
+          });
+          return resp.choices[0].message.content!.trim();
+        } catch (e: unknown) {
+          const err = e as {
+            status?: number;
+            message?: string;
+            response?: { status?: number; data?: { error?: string } | string };
+          };
+          const status = err?.status ?? err?.response?.status;
+          const data = err?.response?.data;
+          const msg = err?.message ?? (typeof data === 'string' ? data : data?.error);
+          // If credits are insufficient for requested max_tokens, try a smaller cap
+          if (status === 402) {
+            const match = typeof msg === 'string' ? msg.match(/afford\s+(\d+)/i) : null;
+            if (match) {
+              const allowed = Math.max(200, parseInt(match[1], 10));
+              const next = Math.min(allowed - 50, maxTokens - 100);
+              if (Number.isFinite(next) && next > 200 && !maxTokensList.includes(next)) {
+                maxTokensList.push(next);
+              }
+            }
+            continue;
+          }
+          throw e;
+        }
+      }
+      throw new Error('Unable to complete due to credit limits.');
+    };
 
-    const aiContent = response.choices[0].message.content!.trim();
+    const aiContent = await tryCompletion([1200, 900, 700]);
     console.log('AI Response received:', aiContent.substring(0, 200) + '...');
+
+    // Helper: try to robustly extract JSON from the model output
+    const extractJson = (text: string): string => {
+      // Strip code fences if present
+      const fencedMatch = text.match(/```(?:json)?\n([\s\S]*?)```/i);
+      const fenced = fencedMatch ? fencedMatch[1] : text;
+      // Remove single-line comments that could appear inside example blocks
+      const noComments = fenced
+        .split('\n')
+        .filter((line) => !/^\s*\/\//.test(line))
+        .join('\n');
+      // If extra prose exists around JSON, take substring between first { and last }
+      const firstBrace = noComments.indexOf('{');
+      const lastBrace = noComments.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+        return noComments.slice(firstBrace, lastBrace + 1);
+      }
+      return noComments;
+    };
 
     let parsedMealPlan: { [day: string]: DailyMealPlan };
     try {
-      parsedMealPlan = JSON.parse(aiContent);
+      const maybeJson = extractJson(aiContent);
+      parsedMealPlan = JSON.parse(maybeJson);
     } catch (parseError) {
       console.error('Error parsing AI response as JSON:', parseError);
       console.error('Raw AI response:', aiContent);
@@ -101,35 +154,53 @@ export async function POST(request: Request) {
     console.log('Successfully parsed meal plan with', Object.keys(parsedMealPlan).length, 'days');
 
     return NextResponse.json({ mealPlan: parsedMealPlan });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error generating meal plan:', error);
 
-    if (error instanceof Error) {
-      if (error.message.includes('401')) {
-        return NextResponse.json(
-          { error: 'Authentication failed. Please check your API key.' },
-          { status: 401 },
-        );
-      } else if (error.message.includes('429')) {
-        return NextResponse.json(
-          { error: 'Rate limit exceeded. Please try again later.' },
-          { status: 429 },
-        );
-      } else if (error.message.includes('model')) {
-        return NextResponse.json(
-          { error: 'Model not available. Please try a different model.' },
-          { status: 500 },
-        );
-      }
+    type OpenRouterError = {
+      status?: number;
+      message?: string;
+      response?: {
+        status?: number;
+        data?: { error?: string } | string;
+      };
+    };
+
+    const err = error as OpenRouterError;
+    const status = err?.status ?? err?.response?.status;
+    const responseData = err?.response?.data;
+    const responseError = typeof responseData === 'string' ? responseData : responseData?.error;
+    const message = err?.message ?? responseError ?? 'Unexpected error';
+
+    if (status === 401) {
+      return NextResponse.json(
+        { error: 'Authentication failed. Please check your API key.' },
+        { status: 401 },
+      );
+    }
+    if (status === 429) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded. Please try again later.' },
+        { status: 429 },
+      );
+    }
+    if (typeof message === 'string' && message.toLowerCase().includes('model')) {
+      return NextResponse.json(
+        { error: 'Model not available. Please try a different model.' },
+        { status: 500 },
+      );
     }
 
     return NextResponse.json(
-      { error: 'Failed to generate meal plan. Please try again later.' },
-      { status: 500 },
+      {
+        error: `Failed to generate meal plan. ${
+          typeof message === 'string' ? message : 'Please try again later.'
+        }`,
+      },
+      { status: typeof status === 'number' ? status : 500 },
     );
   }
 }
-
 
 interface DailyMealPlan {
   Breakfast?: string;
