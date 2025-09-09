@@ -2,7 +2,9 @@
 'use client';
 
 import { Spinner } from '@/components/ui/spinner';
+import { API_ENDPOINTS } from '@/constants/mealplan';
 import { availablePlans } from '@/lib/plans';
+import type { MealPlanListResponse } from '@/types/mealplan';
 import { useUser } from '@clerk/nextjs';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
@@ -28,6 +30,8 @@ export default function ProfilePage() {
 
   // State to manage selected priceId
   const [selectedPlan, setSelectedPlan] = useState<string>('');
+  // State for viewing historical meal plans
+  const [selectedMealPlanId, setSelectedMealPlanId] = useState<string>('');
 
   // Fetch Subscription Details
   const {
@@ -47,6 +51,26 @@ export default function ProfilePage() {
     },
     enabled: isLoaded && isSignedIn,
     staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  // Fetch list of all generated meal plans for current user
+  const {
+    data: mealPlanList,
+    isLoading: isPlansLoading,
+    isError: isPlansError,
+    error: plansError,
+  } = useQuery({
+    queryKey: ['mealplan-list'],
+    queryFn: async () => {
+      const res = await fetch(API_ENDPOINTS.LIST_MEALPLANS, { cache: 'no-store' });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to list meal plans.');
+      }
+      return (await res.json()) as MealPlanListResponse;
+    },
+    enabled: isLoaded && isSignedIn,
+    staleTime: 60 * 1000,
   });
 
   // Adjusted Matching Logic Using priceId
@@ -467,6 +491,93 @@ export default function ProfilePage() {
                           )}
                         </button>
                       </div>
+                    </div>
+
+                    {/* Your Meal Plans */}
+                    <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                      <h3 className="text-xl font-semibold text-slate-800 mb-4">Your Meal Plans</h3>
+
+                      {isPlansLoading ? (
+                        <div className="flex items-center space-x-3 text-slate-600">
+                          <Spinner />
+                          <span>Loading meal plans…</span>
+                        </div>
+                      ) : isPlansError ? (
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+                          {(plansError as Error)?.message || 'Failed to load meal plans.'}
+                        </div>
+                      ) : mealPlanList && mealPlanList.items.length > 0 ? (
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-3">
+                            <select
+                              className="flex-1 px-4 py-3 border border-slate-300 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              value={selectedMealPlanId}
+                              onChange={(e) => setSelectedMealPlanId(e.target.value)}
+                            >
+                              <option value="">
+                                Select a plan ({mealPlanList.items.length} total)
+                              </option>
+                              {mealPlanList.items.map((item, idx) => (
+                                <option key={item.id} value={item.id}>
+                                  {`#${mealPlanList.items.length - idx} — ${new Date(
+                                    item.createdAt,
+                                  ).toLocaleString()}`}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div className="divide-y divide-slate-200 rounded-lg border border-slate-200">
+                            {mealPlanList.items.map((item, idx) => (
+                              <div key={item.id} className="p-4">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <p className="text-sm text-slate-500">Generated</p>
+                                    <p className="font-medium text-slate-800">
+                                      {`#${mealPlanList.items.length - idx} — ${new Date(
+                                        item.createdAt,
+                                      ).toLocaleString()}`}
+                                    </p>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <a
+                                      href={`/mealplan/${item.id}`}
+                                      className="px-3 py-2 rounded-md text-sm font-medium border bg-white text-blue-600 border-blue-600 hover:bg-blue-50"
+                                    >
+                                      View details
+                                    </a>
+                                    <button
+                                      onClick={async () => {
+                                        if (
+                                          !confirm('Delete this meal plan? This cannot be undone.')
+                                        )
+                                          return;
+                                        try {
+                                          const res = await fetch(`/api/mealplan/${item.id}`, {
+                                            method: 'DELETE',
+                                          });
+                                          if (!res.ok) {
+                                            const j = await res.json();
+                                            throw new Error(j.error || 'Failed to delete plan');
+                                          }
+                                          window.location.reload();
+                                        } catch (e) {
+                                          alert((e as Error).message);
+                                        }
+                                      }}
+                                      className="px-3 py-2 rounded-md text-sm font-medium border bg-white text-red-600 border-red-600 hover:bg-red-50"
+                                    >
+                                      Delete
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-slate-600">You have not generated any meal plans yet.</p>
+                      )}
                     </div>
 
                     {/* Unsubscribe */}

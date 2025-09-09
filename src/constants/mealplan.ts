@@ -53,4 +53,5 @@ export const FORM_PLACEHOLDERS = {
 export const API_ENDPOINTS = {
   GENERATE_MEALPLAN: '/api/generate-mealplan',
   SAVE_MEALPLAN: '/api/mealplan',
+  LIST_MEALPLANS: '/api/mealplan/list',
 } as const;

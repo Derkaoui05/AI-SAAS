@@ -14,6 +14,17 @@ export interface MealPlanResponse {
   error?: string;
 }
 
+export interface MealPlanListItem {
+  id: string;
+  createdAt: string | Date;
+  plan: WeeklyMealPlan;
+}
+
+export interface MealPlanListResponse {
+  items: MealPlanListItem[];
+  error?: string;
+}
+
 export interface MealPlanInput {
   dietType: string;
   calories: number;
