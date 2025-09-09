@@ -3,28 +3,12 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-    <footer className="relative border-t bg-gradient-to-b from-pink-50/60 via-white to-sky-50/70 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-      <div className="absolute -top-8 left-0 right-0" aria-hidden>
-        <svg
-          className="w-full text-white dark:text-slate-900"
-          viewBox="0 0 1440 80"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="currentColor"
-            d="M0,64L80,58.7C160,53,320,43,480,42.7C640,43,800,53,960,58.7C1120,64,1280,64,1360,64L1440,64L1440,80L1360,80C1280,80,1120,80,960,80C800,80,640,80,480,80C320,80,160,80,80,80L0,80Z"
-          />
-        </svg>
-      </div>
-
-      <div className="pointer-events-none absolute -z-10 inset-0 overflow-hidden">
-        <div className="absolute -left-10 top-10 h-40 w-40 rounded-full bg-pink-300/30 blur-3xl" />
-        <div className="absolute right-0 top-28 h-48 w-48 rounded-full bg-sky-300/30 blur-3xl" />
-      </div>
+    <footer className="relative border-t bg-gradient-to-b from-pink-50/60 via-white to-sky-50/70">
+    
 
       <div className="mx-auto w-full max-w-7xl px-6 pb-10 pt-16">
         <div className="flex flex-col items-center gap-6 text-center">
-          <div className="inline-flex items-center rounded-full border bg-white/70 px-3 py-1 text-xs text-muted-foreground backdrop-blur dark:bg-slate-900/60">
+          <div className="inline-flex items-center rounded-full border bg-white/70 px-3 py-1 text-xs text-muted-foreground backdrop-blur">
             💚 Fresh, tasty, and tailored for you
           </div>
           <div className="flex items-center gap-3">
@@ -43,7 +27,7 @@ function Footer() {
             plans.
           </p>
           <div className="w-full">
-            <div className="mx-auto w-full max-w-xl rounded-2xl border bg-white/70 p-3 shadow-sm backdrop-blur dark:bg-slate-900/60">
+            <div className="mx-auto w-full max-w-xl rounded-2xl border bg-white/70 p-3 shadow-sm backdrop-blur">
               <form className="flex items-center gap-2">
                 <input
                   type="email"
@@ -67,25 +51,25 @@ function Footer() {
             <div className="flex flex-wrap gap-2">
               <Link
                 href="/mealplan"
-                className="rounded-full border bg-white/70 px-3 py-1 text-xs text-foreground/90 transition hover:bg-white hover:shadow-sm dark:bg-slate-900/60"
+                className="rounded-full border bg-white/70 px-3 py-1 text-xs text-foreground/90 transition hover:bg-white hover:shadow-sm"
               >
                 Meal plan
               </Link>
               <Link
                 href="/subscribe"
-                className="rounded-full border bg-white/70 px-3 py-1 text-xs text-foreground/90 transition hover:bg-white hover:shadow-sm dark:bg-slate-900/60"
+                className="rounded-full border bg-white/70 px-3 py-1 text-xs text-foreground/90 transition hover:bg-white hover:shadow-sm"
               >
                 Pricing
               </Link>
               <Link
                 href="/profile"
-                className="rounded-full border bg-white/70 px-3 py-1 text-xs text-foreground/90 transition hover:bg-white hover:shadow-sm dark:bg-slate-900/60"
+                className="rounded-full border bg-white/70 px-3 py-1 text-xs text-foreground/90 transition hover:bg-white hover:shadow-sm"
               >
                 Profile
               </Link>
               <Link
                 href="/create-profile"
-                className="rounded-full border bg-white/70 px-3 py-1 text-xs text-foreground/90 transition hover:bg-white hover:shadow-sm dark:bg-slate-900/60"
+                className="rounded-full border bg-white/70 px-3 py-1 text-xs text-foreground/90 transition hover:bg-white hover:shadow-sm"
               >
                 Create profile
               </Link>
@@ -145,7 +129,7 @@ function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub"
-                className="rounded-full border bg-white/70 p-2 text-foreground/80 transition hover:bg-white hover:shadow-sm dark:bg-slate-900/60"
+                className="rounded-full border bg-white/70 p-2 text-foreground/80 transition hover:bg-white hover:shadow-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +149,7 @@ function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram"
-                className="rounded-full border bg-white/70 p-2 text-foreground/80 transition hover:bg-white hover:shadow-sm dark:bg-slate-900/60"
+                className="rounded-full border bg-white/70 p-2 text-foreground/80 transition hover:bg-white hover:shadow-sm"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

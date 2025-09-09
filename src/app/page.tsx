@@ -6,7 +6,7 @@ import {
   HeroSection,
   HowItWorksSection,
   TestimonialsSection,
-} from '@/components';
+} from '@/components/home';
 import { useCheckoutConfirmation } from '@/hooks/useCheckoutConfirmation';
 import { Suspense } from 'react';
 
