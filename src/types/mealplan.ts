@@ -42,6 +42,7 @@ export interface MealPlanFormData {
   snacks: boolean;
 }
 
+
 export type DayOfWeek =
   | 'Monday'
   | 'Tuesday'

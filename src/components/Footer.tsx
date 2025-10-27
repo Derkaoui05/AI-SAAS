@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 function Footer() {
   return (
-    <footer className="relative border-t bg-gradient-to-b from-pink-50/60 via-white to-sky-50/70">
+    <footer className="relative border-t ">
     
 
       <div className="mx-auto w-full max-w-7xl px-6 pb-10 pt-16">

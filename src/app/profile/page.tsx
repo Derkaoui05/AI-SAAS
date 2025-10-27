@@ -53,7 +53,7 @@ export default function ProfilePage() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
-  // Fetch list of all generated meal plans for current user
+  
   const {
     data: mealPlanList,
     isLoading: isPlansLoading,
@@ -565,7 +565,7 @@ export default function ProfilePage() {
                                           alert((e as Error).message);
                                         }
                                       }}
-                                      className="px-3 py-2 rounded-md text-sm font-medium border bg-white text-red-600 border-red-600 hover:bg-red-50"
+                                      className="px-3 py-2 rounded-md text-sm font-medium border cursor-pointer bg-white text-red-600 border-red-600 hover:bg-red-50"
                                     >
                                       Delete
                                     </button>
