@@ -14,7 +14,7 @@ function HomePageClient() {
   useCheckoutConfirmation();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
+    <div className="min-h-screen bg-slate-950">
       <HeroSection />
 
       <div className="max-w-7xl mx-auto px-4">
