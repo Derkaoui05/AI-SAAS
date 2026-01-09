@@ -17,7 +17,7 @@ export default clerkMiddleware(async (auth, req) => {
   const userAuth = await auth();
   const { userId } = userAuth;
   const { pathname, origin } = req.nextUrl;
-  if(pathname=== "/api/check-subscription"){
+  if (pathname === '/api/check-subscription') {
     return NextResponse.next(); // Allow API route to proceed without auth
   }
   console.log('Middleware Info: ', userId, pathname, origin);

@@ -33,48 +33,42 @@ export async function POST(request: Request) {
     }
 
     const prompt = `
-      You are a professional nutritionist. Create a 7-day meal plan for an individual following a ${dietType} diet aiming for ${calories} calories per day.
+      You are a professional nutritionist. Create a concise 7-day meal plan for an individual following a ${dietType} diet aiming for ${calories} calories per day.
       
       Allergies or restrictions: ${allergies || 'none'}.
       Preferred cuisine: ${cuisine || 'no preference'}.
       Snacks included: ${snacks ? 'yes' : 'no'}.
       
-      For each day, provide:
+      For each day (Sunday through Saturday), provide:
         - Breakfast
         - Lunch
         - Dinner
         ${snacks ? '- Snacks' : ''}
       
-      Use simple ingredients and provide brief instructions. Include approximate calorie counts for each meal.
+      Each meal should be a SHORT single-line string: a brief description and approximate calories, for example:
+      "Oatmeal with berries - 400 calories"
       
-      Structure the response as a JSON object where each day is a key, and each meal (breakfast, lunch, dinner, snacks) is a sub-key. Example:
-      
-      {
-        "Sunday": {
-          "Breakfast": "Oatmeal with fruits - 350 calories",
-          "Lunch": "Grilled chicken salad - 500 calories",
-          "Dinner": "Steamed vegetables with quinoa - 600 calories",
-          "Snacks": "Greek yogurt - 150 calories"
-        },
-        "Monday": {
-          "Breakfast": "Smoothie bowl - 300 calories",
-          "Lunch": "Turkey sandwich - 450 calories",
-          "Dinner": "Baked salmon with asparagus - 700 calories",
-          "Snacks": "Almonds - 200 calories"
-        }
-        // ...and so on for each day
-      }
-
-      Return just the json with no extra commentaries and no backticks.
+      VERY IMPORTANT JSON RULES (STRICT):
+      - Respond with a SINGLE valid JSON object.
+      - The top-level object keys must be the day names: "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday".
+      - Each day must be an object with keys "Breakfast", "Lunch", "Dinner"${
+        snacks ? ', "Snacks"' : ''
+      }.
+      - Do NOT include comments (no // or /* */).
+      - Do NOT include trailing commas.
+      - Do NOT include any text before or after the JSON.
+      - Do NOT wrap the JSON in markdown code fences.
+      - Do NOT use ellipsis like "..." anywhere.
+      - Make sure all strings are properly closed and all braces/brackets are balanced.
     `;
 
-    console.log('Sending request to OpenRouter with model:', 'anthropic/claude-3.5-sonnet');
+    console.log('Sending request to OpenRouter with model:', 'mistralai/devstral-2512:free');
 
     const tryCompletion = async (maxTokensList: number[]): Promise<string> => {
       for (const maxTokens of maxTokensList) {
         try {
           const resp = await openai.chat.completions.create({
-            model: 'anthropic/claude-3.5-sonnet',
+            model: 'mistralai/devstral-2512:free',
             messages: [
               {
                 role: 'user',
@@ -83,6 +77,8 @@ export async function POST(request: Request) {
             ],
             temperature: 0.7,
             max_tokens: maxTokens,
+            // Ask OpenRouter/model to return strict JSON
+            response_format: { type: 'json_object' },
           });
           return resp.choices[0].message.content!.trim();
         } catch (e: unknown) {
@@ -112,8 +108,8 @@ export async function POST(request: Request) {
       throw new Error('Unable to complete due to credit limits.');
     };
 
-    const aiContent = await tryCompletion([1200, 900, 700]);
-    console.log('AI Response received:', aiContent.substring(0, 200) + '...');
+    const aiContent = await tryCompletion([700, 500, 350]);
+    console.log('AI Response received (truncated):', aiContent.substring(0, 200) + '...');
 
     // Helper: try to robustly extract JSON from the model output
     const extractJson = (text: string): string => {
@@ -134,17 +130,86 @@ export async function POST(request: Request) {
       return noComments;
     };
 
+    const parseMealPlan = (text: string): { [day: string]: DailyMealPlan } => {
+      const base = extractJson(text);
+
+      // First strict parse attempt
+      try {
+        return JSON.parse(base);
+      } catch {
+        // Best-effort "repair" for common JSON issues the model might introduce
+        let repaired = base;
+
+        // 1) Remove trailing commas before } or ]
+        repaired = repaired.replace(/,\s*([}\]])/g, '$1');
+
+        // 2) Normalise smart quotes to standard quotes
+        repaired = repaired
+          .replace(/[\u201C\u201D]/g, '"') // double smart quotes
+          .replace(/[\u2018\u2019]/g, "'"); // single smart quotes
+
+        // 3) Remove any non-printable control characters except newline, tab, carriage return
+        repaired = repaired.replace(/[^\x20-\x7E\n\r\t]/g, '');
+
+        return JSON.parse(repaired);
+      }
+    };
+
     let parsedMealPlan: { [day: string]: DailyMealPlan };
+
     try {
-      const maybeJson = extractJson(aiContent);
-      parsedMealPlan = JSON.parse(maybeJson);
+      // First attempt: parse the original completion
+      parsedMealPlan = parseMealPlan(aiContent);
     } catch (parseError) {
-      console.error('Error parsing AI response as JSON:', parseError);
-      console.error('Raw AI response:', aiContent);
-      return NextResponse.json(
-        { error: 'Failed to parse meal plan. Please try again.' },
-        { status: 500 },
-      );
+      console.error('Error parsing AI response as JSON (first attempt):', parseError);
+      console.error('Raw AI response (truncated):', aiContent.substring(0, 500) + '...');
+
+      // Second attempt: ask the model to fix/return valid JSON only
+      try {
+        const repairPrompt = `
+          You previously attempted to generate a JSON meal plan but the JSON was invalid or incomplete.
+          Here is your previous response between <response> tags:
+
+          <response>
+          ${aiContent}
+          </response>
+
+          Please return a NEW, fully valid JSON object for a 7-day meal plan that matches the same intent.
+          STRICT RULES:
+          - Respond with a SINGLE valid JSON object only.
+          - Do NOT include any comments, explanations, or markdown.
+          - Do NOT include text before or after the JSON.
+          - Do NOT wrap the JSON in code fences.
+          - Ensure there are no trailing commas and all strings/braces are properly closed.
+        `;
+
+        const repairResp = await openai.chat.completions.create({
+          model: 'mistralai/devstral-2512:free',
+          messages: [
+            {
+              role: 'user',
+              content: repairPrompt,
+            },
+          ],
+          temperature: 0.2,
+          max_tokens: 900,
+          response_format: { type: 'json_object' },
+        });
+
+        const repairedContent = repairResp.choices[0].message.content!.trim();
+        console.log(
+          'Repaired AI JSON response (truncated):',
+          repairedContent.substring(0, 200) + '...',
+        );
+
+        parsedMealPlan = parseMealPlan(repairedContent);
+      } catch (repairError) {
+        console.error('Error repairing/parsing AI JSON response:', repairError);
+        return NextResponse.json(
+          { error: 'Failed to parse meal plan. Please try again.' },
+          { status: 500 },
+        );
+      }
     }
 
     if (typeof parsedMealPlan !== 'object' || parsedMealPlan === null) {
