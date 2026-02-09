@@ -1,4 +1,4 @@
-import { MEAL_TYPES } from '@/components/constants/mealplan';
+import { MEAL_TYPES } from '@/constants/mealplan';
 import { DailyMealPlan, MealType } from '@/types/mealplan';
 
 interface MealCardProps {

@@ -1,4 +1,4 @@
-import { DAYS_OF_WEEK } from '@/components/constants/mealplan';
+import { DAYS_OF_WEEK } from '@/constants/mealplan';
 import { Spinner } from '@/components/ui/spinner';
 import { WeeklyMealPlan as WeeklyMealPlanType } from '@/types/mealplan';
 import { DayCard } from './DayCard';

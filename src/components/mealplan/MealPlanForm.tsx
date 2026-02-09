@@ -1,4 +1,4 @@
-import { CALORIE_LIMITS, FORM_PLACEHOLDERS } from '@/components/constants/mealplan';
+import { CALORIE_LIMITS, FORM_PLACEHOLDERS } from '@/constants/mealplan';
 import { Spinner } from '@/components/ui/spinner';
 import { MealPlanFormData } from '@/types/mealplan';
 
