@@ -33,6 +33,9 @@ export const Navbar = () => {
         <div className="flex items-center gap-4">
           <SignedIn>
             <Button asChild variant="ghost">
+              <Link href="/profile">Profile</Link>
+            </Button>
+            <Button asChild variant="ghost">
               <Link href="/mealplan">MealPlan</Link>
             </Button>
             <Button asChild variant="ghost">
