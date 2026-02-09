@@ -169,10 +169,10 @@ function Footer() {
             © {new Date().getFullYear()} PurePlate. All rights reserved | Designed by{' '}
             <Link
               target="_blank"
-              className="font-bold text-primary"
+              className="font-bold text-primary hover:border-b-2 hover:border-primary hover:pb-0.5 duration-700 transition-colors"
               href="https://derkaoui.netlify.app"
             >
-              Yassir
+              Derkaoui Yassir
             </Link>
           </p>
           <div className="flex items-center gap-4">
