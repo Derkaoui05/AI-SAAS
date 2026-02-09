@@ -1,8 +1,8 @@
 // app/profile/page.tsx
 'use client';
 
-import { Spinner } from '@/components/ui/spinner';
 import { API_ENDPOINTS } from '@/constants/mealplan';
+import { Spinner } from '@/components/ui/spinner';
 import { availablePlans } from '@/lib/plans';
 import type { MealPlanListResponse } from '@/types/mealplan';
 import { useUser } from '@clerk/nextjs';
@@ -167,8 +167,18 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="bg-card rounded-2xl shadow-sm border border-border p-8 text-center max-w-md">
           <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-destructive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+            <svg
+              className="w-8 h-8 text-destructive"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
             </svg>
           </div>
           <h2 className="text-xl font-semibold text-foreground mb-2">Authentication Required</h2>
@@ -214,8 +224,18 @@ export default function ProfilePage() {
                       </div>
                     )}
                     <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-primary rounded-full ring-4 ring-background flex items-center justify-center">
-                      <svg className="w-4 h-4 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-4 h-4 text-primary-foreground"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -233,12 +253,24 @@ export default function ProfilePage() {
 
                   <div className="pt-4 border-t border-border">
                     <div className="flex items-center justify-center space-x-2 text-muted-foreground">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
                       </svg>
                       <span className="text-sm">
                         Member since{' '}
-                        {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Recently'}
+                        {user.createdAt
+                          ? new Date(user.createdAt).toLocaleDateString()
+                          : 'Recently'}
                       </span>
                     </div>
                   </div>
@@ -251,8 +283,18 @@ export default function ProfilePage() {
               <div className="bg-card rounded-2xl shadow-sm border border-border p-8">
                 <div className="flex items-center space-x-3 mb-8">
                   <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-                    <svg className="w-6 h-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-6 h-6 text-primary-foreground"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                   </div>
                   <h2 className="text-3xl font-bold text-foreground">Subscription Details</h2>
@@ -268,11 +310,23 @@ export default function ProfilePage() {
                 ) : isError ? (
                   <div className="bg-destructive/10 border border-destructive/30 rounded-xl p-6 text-center">
                     <div className="w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8 text-destructive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                      <svg
+                        className="w-8 h-8 text-destructive"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                        />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Error Loading Subscription</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">
+                      Error Loading Subscription
+                    </h3>
                     <p className="text-destructive">{error?.message}</p>
                   </div>
                 ) : subscription ? (
@@ -291,8 +345,18 @@ export default function ProfilePage() {
                           <div className="space-y-3">
                             <div className="flex items-center space-x-3">
                               <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                <svg
+                                  className="w-5 h-5 text-primary"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                                  />
                                 </svg>
                               </div>
                               <div>
@@ -303,8 +367,18 @@ export default function ProfilePage() {
 
                             <div className="flex items-center space-x-3">
                               <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                                <svg
+                                  className="w-5 h-5 text-primary"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                                  />
                                 </svg>
                               </div>
                               <div>
@@ -319,20 +393,42 @@ export default function ProfilePage() {
                           <div className="space-y-3">
                             <div className="flex items-center space-x-3">
                               <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                <svg
+                                  className="w-5 h-5 text-primary"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                  />
                                 </svg>
                               </div>
                               <div>
                                 <p className="text-sm text-muted-foreground">Billing Cycle</p>
-                                <p className="font-semibold text-foreground capitalize">{currentPlan.interval}</p>
+                                <p className="font-semibold text-foreground capitalize">
+                                  {currentPlan.interval}
+                                </p>
                               </div>
                             </div>
 
                             <div className="flex items-center space-x-3">
                               <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
-                                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-5 h-5 text-primary"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                               </div>
                               <div>
@@ -351,7 +447,9 @@ export default function ProfilePage() {
 
                     {/* Change Subscription Plan */}
                     <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-                      <h3 className="text-xl font-semibold text-foreground mb-4">Change Subscription Plan</h3>
+                      <h3 className="text-xl font-semibold text-foreground mb-4">
+                        Change Subscription Plan
+                      </h3>
                       <div className="space-y-4">
                         <select
                           onChange={handleChangePlan}
@@ -373,7 +471,9 @@ export default function ProfilePage() {
                           onClick={handleConfirmChangePlan}
                           disabled={!selectedPlan || changePlanMutation.isPending}
                           className={`w-full bg-primary text-primary-foreground py-3 px-6 rounded-lg font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background transition-all duration-200 ${
-                            !selectedPlan || changePlanMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''
+                            !selectedPlan || changePlanMutation.isPending
+                              ? 'opacity-50 cursor-not-allowed'
+                              : ''
                           }`}
                         >
                           {changePlanMutation.isPending ? (
@@ -390,7 +490,9 @@ export default function ProfilePage() {
 
                     {/* Your Meal Plans */}
                     <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
-                      <h3 className="text-xl font-semibold text-foreground mb-4">Your Meal Plans</h3>
+                      <h3 className="text-xl font-semibold text-foreground mb-4">
+                        Your Meal Plans
+                      </h3>
 
                       {isPlansLoading ? (
                         <div className="flex items-center space-x-3 text-muted-foreground">
@@ -409,7 +511,9 @@ export default function ProfilePage() {
                               value={selectedMealPlanId}
                               onChange={(e) => setSelectedMealPlanId(e.target.value)}
                             >
-                              <option value="">Select a plan ({mealPlanList.items.length} total)</option>
+                              <option value="">
+                                Select a plan ({mealPlanList.items.length} total)
+                              </option>
                               {mealPlanList.items.map((item, idx) => (
                                 <option key={item.id} value={item.id}>
                                   {`#${mealPlanList.items.length - idx} — ${new Date(item.createdAt).toLocaleString()}`}
@@ -437,7 +541,10 @@ export default function ProfilePage() {
                                     </a>
                                     <button
                                       onClick={async () => {
-                                        if (!confirm('Delete this meal plan? This cannot be undone.')) return;
+                                        if (
+                                          !confirm('Delete this meal plan? This cannot be undone.')
+                                        )
+                                          return;
                                         try {
                                           const res = await fetch(`/api/mealplan/${item.id}`, {
                                             method: 'DELETE',
@@ -462,7 +569,9 @@ export default function ProfilePage() {
                           </div>
                         </div>
                       ) : (
-                        <p className="text-muted-foreground">You have not generated any meal plans yet.</p>
+                        <p className="text-muted-foreground">
+                          You have not generated any meal plans yet.
+                        </p>
                       )}
                     </div>
 
@@ -470,7 +579,8 @@ export default function ProfilePage() {
                     <div className="bg-card border border-border rounded-xl p-6 shadow-sm">
                       <h3 className="text-xl font-semibold text-foreground mb-4">Unsubscribe</h3>
                       <p className="text-muted-foreground mb-4">
-                        Cancel your subscription to stop billing. You&apos;ll continue to have access until the end of your current billing period.
+                        Cancel your subscription to stop billing. You&apos;ll continue to have
+                        access until the end of your current billing period.
                       </p>
                       <button
                         onClick={handleUnsubscribe}
@@ -493,11 +603,23 @@ export default function ProfilePage() {
                 ) : (
                   <div className="bg-muted border border-border rounded-xl p-6 text-center">
                     <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                      <svg
+                        className="w-8 h-8 text-muted-foreground"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                        />
                       </svg>
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">No Subscription Data</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">
+                      No Subscription Data
+                    </h3>
                     <p className="text-muted-foreground">You are not subscribed to any plan.</p>
                   </div>
                 )}

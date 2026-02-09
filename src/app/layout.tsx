@@ -6,6 +6,7 @@ import ReactQueryClientProvider from '../components/react-query-client-provider'
 import './globals.css';
 import { Analytics } from "@vercel/analytics/next"
 import Footer from '../components/Footer';
+import {dark, neobrutalism} from '@clerk/themes'
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -27,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider  appearance={{ theme: dark ,   signIn: { theme: neobrutalism },}}>
       <ReactQueryClientProvider>
         <html lang="en">
           <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>

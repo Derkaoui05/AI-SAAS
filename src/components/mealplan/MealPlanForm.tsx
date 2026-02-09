@@ -1,5 +1,5 @@
+import { CALORIE_LIMITS, FORM_PLACEHOLDERS } from '@/components/constants/mealplan';
 import { Spinner } from '@/components/ui/spinner';
-import { CALORIE_LIMITS, FORM_PLACEHOLDERS } from '@/constants/mealplan';
 import { MealPlanFormData } from '@/types/mealplan';
 
 interface MealPlanFormProps {

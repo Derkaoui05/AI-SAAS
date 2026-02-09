@@ -1,4 +1,4 @@
-import { API_ENDPOINTS, CALORIE_LIMITS } from '@/constants/mealplan';
+import { API_ENDPOINTS, CALORIE_LIMITS } from '@/components/constants/mealplan';
 import {
   MealPlanFormData,
   MealPlanInput,
